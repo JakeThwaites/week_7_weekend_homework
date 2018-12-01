@@ -9,13 +9,12 @@ const NumberSearchView = function(container) {
 NumberSearchView.prototype.bindEvents = function () {
   PubSub.subscribe('Numbers:all-numbers-ready', (event) => {
     this.numbers = event.detail;
-    console.log(this.numbers);
     this.populate(this.numbers);
   });
 
   this.container.addEventListener('change', (event) => {
     const selectedIndex = event.target.value;
-    PubSub.publish('Numbers:number;selected');
+    PubSub.publish('NumberSeachView:number-selected', selectedIndex);
   });
 };
 
@@ -26,7 +25,7 @@ NumberSearchView.prototype.populate = function (numbers) {
   numbersData.forEach((number, index) => {
     const option = document.createElement('option');
     option.textContent = number[0];
-    option.value = index;
+    option.value = number[0];
     this.container.appendChild(option);
   });
 

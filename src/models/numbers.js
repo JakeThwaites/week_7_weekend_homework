@@ -8,7 +8,7 @@ const Numbers = function() {
 Numbers.prototype.bindEvents = function () {
   this.getData();
 
-  PubSub.subscribe('NumberSearchView:number-selected', (event) => {
+  PubSub.subscribe('NumberSeachView:number-selected', (event) => {
     const selectedIndex = event.detail;
     this.publishNumberInfo(selectedIndex);
   });
@@ -19,8 +19,8 @@ Numbers.prototype.getData = function () {
   const request = new RequestHelper(url);
   request.get()
     .then((numbers) => {
-      this.data = numbers;
-      PubSub.publish('Numbers:all-numbers-ready', this.data);
+      this.numbers = numbers;
+      PubSub.publish('Numbers:all-numbers-ready', this.numbers);
     });
 };
 

@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   numberDropdown.bindEvents();
 
 
-  const infoDiv = document.querySelector('div#number');
+  const infoDiv = document.querySelector('div#number-display');
   const numberView = new NumberView(infoDiv);
   numberView.bindEvents();
 
   const numbers = new Numbers();
-  numbers.getData();
+  numbers.bindEvents();
 
 })
