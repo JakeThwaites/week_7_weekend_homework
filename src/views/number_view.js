@@ -16,6 +16,7 @@ NumberView.prototype.render = function (number) {
   const numberInfo = this.createCustomElement('div', 'id', 'number-info');
   numberInfo.appendChild(this.createCustomElement('p', "textContent", number));
 
+  this.container.innerHTML = '';
   this.container.appendChild(numberInfo);
 };
 
