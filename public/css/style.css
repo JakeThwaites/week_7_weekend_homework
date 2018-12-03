@@ -1,3 +1,10 @@
 #title {
   text-align: center;
+  background-image: url('./numbers.jpeg');
+}
+
+body {
+  background-color: #444B8E;
+  background-size: cover;
+  color: white;
 }

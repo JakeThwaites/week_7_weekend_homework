@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Numbers = __webpack_require__(/*! ./models/numbers.js */ \"./src/models/numbers.js\");\nconst NumberSearchView = __webpack_require__(/*! ./views/number_search_view.js */ \"./src/views/number_search_view.js\");\nconst NumberView = __webpack_require__(/*! ./views/number_view.js */ \"./src/views/number_view.js\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('JavaScript Loaded');\n\n  const selectElement = document.querySelector('select#pick-a-number');\n  const numberDropdown = new NumberSearchView(selectElement);\n  numberDropdown.bindEvents();\n\n\n  const infoDiv = document.querySelector('div#number-display');\n  const numberView = new NumberView(infoDiv);\n  numberView.bindEvents();\n\n  const numbers = new Numbers();\n  numbers.bindEvents();\n\n})\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const Numbers = __webpack_require__(/*! ./models/numbers.js */ \"./src/models/numbers.js\");\nconst NumberSearchView = __webpack_require__(/*! ./views/number_search_view.js */ \"./src/views/number_search_view.js\");\nconst NumberView = __webpack_require__(/*! ./views/number_view.js */ \"./src/views/number_view.js\");\n\nconst AboutView = __webpack_require__(/*! ./views/about.js */ \"./src/views/about.js\");\nconst AboutButtonView = __webpack_require__(/*! ./views/about_button.js */ \"./src/views/about_button.js\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('JavaScript Loaded');\n\n  const selectElement = document.querySelector('select#pick-a-number');\n  const numberDropdown = new NumberSearchView(selectElement);\n  numberDropdown.bindEvents();\n\n\n  const infoDiv = document.querySelector('div#number-display');\n  const numberView = new NumberView(infoDiv);\n  numberView.bindEvents();\n\n  const numbers = new Numbers();\n  numbers.bindEvents();\n\n  const aboutElement = document.querySelector('click#about-button');\n  const aboutButton = new AboutButtonView(aboutElement);\n  aboutButton.bindEvents();\n\n  const aboutView = new AboutView(infoDiv);\n  aboutView.bindEvents();\n})\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -127,6 +127,28 @@ eval("const RequestHelper = function (url) {\n  this.url = url;\n}\n\nRequestHel
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\nconst RequestHelper = __webpack_require__(/*! ../helpers/request_helper.js */ \"./src/helpers/request_helper.js\");\n\nconst Numbers = function() {\n  this.numbers = [];\n};\n\nNumbers.prototype.bindEvents = function () {\n  this.getData();\n\n  PubSub.subscribe('NumberSeachView:number-selected', (event) => {\n    const selectedIndex = event.detail;\n    this.publishNumberInfo(selectedIndex);\n  });\n};\n\nNumbers.prototype.getData = function () {\n  const url = 'http://numbersapi.com/1..100';\n  const request = new RequestHelper(url);\n  request.get()\n    .then((numbers) => {\n      this.numbers = numbers;\n      PubSub.publish('Numbers:all-numbers-ready', this.numbers);\n    });\n};\n\nNumbers.prototype.publishNumberInfo = function (index) {\n  const selectedNumberInfo = this.numbers[index];\n  PubSub.publish('Number:selected-number-info', selectedNumberInfo);\n};\n\nmodule.exports = Numbers;\n\n\n//# sourceURL=webpack:///./src/models/numbers.js?");
+
+/***/ }),
+
+/***/ "./src/views/about.js":
+/*!****************************!*\
+  !*** ./src/views/about.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst AboutView = function(container) {\n  this.container = container;\n  this.aboutInfo = \"This is a website with a bunch of random facts about numbers! To view a random fact, just select a number from the dropdown box.\";\n};\n\nAboutView.prototype.bindEvents = function () {\n  // PubSub.subscribe('About:about-section-selected', (event) => {\n  //   this.showAboutSection();\n  // });\n\n   document.querySelector('click#about-button').addEventListener('click', this.showAboutSection() );\n};\n\nAboutView.prototype.showAboutSection = function () {\n  const aboutInfo = document.createElement('p');\n  aboutInfo.textContent = this.aboutInfo;\n\n  this.container.innerHTML = \"\";\n  this.container.appendChild(aboutInfo);\n};\n\nmodule.exports = AboutView;\n\n\n//# sourceURL=webpack:///./src/views/about.js?");
+
+/***/ }),
+
+/***/ "./src/views/about_button.js":
+/*!***********************************!*\
+  !*** ./src/views/about_button.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval(" const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\n const AboutButtonView = function(container) {\n   this.container = container;\n };\n\n AboutButtonView.prototype.bindEvents = function () {\n   // this.container.addEventListener('click', (event) => {\n   //   const selected = event.target;\n   //   PubSub.publish('About:about-section-selected', selected);\n   // });\n };\n\n module.exports = AboutButtonView;\n\n\n//# sourceURL=webpack:///./src/views/about_button.js?");
 
 /***/ }),
 
